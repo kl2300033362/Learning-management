@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './hooks/useAuth';
 import { ProtectedRoute } from './components/Routes/ProtectedRoute';
 import { AuthForm } from './components/Auth/AuthForm';
@@ -85,7 +85,7 @@ function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <Router basename={import.meta.env.BASE_URL}>
+        <Router>
           <div className="App">
             <Routes>
               {/* Public routes */}
