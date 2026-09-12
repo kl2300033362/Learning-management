@@ -38,13 +38,13 @@
   "main": "eslint.config.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kl2300033362/Car-rental.git"
+    "url": "git+https://github.com/kl2300033362/Edu-platform.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kl2300033362/Car-rental/issues"
+    "url": "https://github.com/kl2300033362/Edu-platform/issues"
   },
-  "homepage": "https://github.com/kl2300033362/Car-rental#readme"
+  "homepage": "https://github.com/kl2300033362/Edu-platform#readme"
 }
