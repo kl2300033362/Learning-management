@@ -5,11 +5,19 @@ import { ProtectedRoute } from './components/Routes/ProtectedRoute';
 import { AuthForm } from './components/Auth/AuthForm';
 import { Dashboard } from './pages/Dashboard';
 import { Home, AlertTriangle } from 'lucide-react';
+import { Sidebar } from './components/Layout/Sidebar';
 
-// Lazy-load heavy pages to improve time-to-first-render
-const Courses = lazy(() => import('./pages/CoursesPage'));
-const Assignments = lazy(() => import('./pages/AssignmentsPage'));
-const InstructorDashboard = lazy(() => import('./pages/InstructorDashboardPage'));
+// Lazy-load new pages
+const CoursesPage = lazy(() => import('./pages/student/CoursesPage'));
+const ExamSection = lazy(() => import('./pages/student/ExamSection'));
+const AttendancePage = lazy(() => import('./pages/student/AttendancePage'));
+const PaymentPage = lazy(() => import('./pages/student/PaymentPage'));
+const RewardsPage = lazy(() => import('./pages/student/RewardsPage'));
+
+const StudentDetails = lazy(() => import('./pages/admin/StudentDetails'));
+const AttendanceReport = lazy(() => import('./pages/admin/AttendanceReport'));
+const TimetableManager = lazy(() => import('./pages/admin/TimetableManager'));
+const CourseRegistration = lazy(() => import('./pages/admin/CourseRegistration'));
 
 class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean; error: Error | null }> {
   constructor(props: { children: React.ReactNode }) {
@@ -21,10 +29,6 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('App Error:', error, errorInfo);
-  }
-
   render() {
     if (this.state.hasError) {
       return (
@@ -32,13 +36,12 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
           <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
             <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-4" />
             <h1 className="text-xl font-bold text-gray-900 mb-2">Oops! Something went wrong</h1>
-            <p className="text-gray-600 mb-4">We encountered an unexpected error. Please refresh the page or try again later.</p>
-            <button onClick={() => window.location.reload()} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Refresh Page</button>
+            <p className="text-gray-600 mb-4">We encountered an unexpected error. Please refresh the page.</p>
+            <button onClick={() => window.location.reload()} className="px-4 py-2 bg-blue-600 text-white rounded-lg">Refresh Page</button>
           </div>
         </div>
       );
     }
-
     return this.props.children;
   }
 }
@@ -46,39 +49,27 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
 const NotFound = () => (
   <div className="min-h-screen bg-gray-50 flex items-center justify-center">
     <div className="text-center">
-      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-        <AlertTriangle className="w-8 h-8 text-gray-400" />
-      </div>
       <h1 className="text-3xl font-bold text-gray-900 mb-2">404 - Page Not Found</h1>
-      <p className="text-gray-600 mb-6">The page you're looking for doesn't exist.</p>
-      <a href="/" className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-        <Home className="w-4 h-4 mr-2" />
-        Go Home
-      </a>
+      <a href="#/" className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg">Go Home</a>
     </div>
   </div>
 );
 
-const Unauthorized = () => (
-  <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-    <div className="text-center">
-      <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-        <AlertTriangle className="w-8 h-8 text-red-500" />
+const AppLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="flex min-h-screen bg-slate-900">
+      <Sidebar />
+      <div className="flex-1 overflow-x-hidden">
+        {children}
       </div>
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Access Denied</h1>
-      <p className="text-gray-600 mb-6">You don't have permission to access this page.</p>
-      <a href="/" className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-        <Home className="w-4 h-4 mr-2" />
-        Go to Dashboard
-      </a>
     </div>
-  </div>
-);
+  );
+};
 
 function App() {
   const suspenseFallback = (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+      <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
     </div>
   );
 
@@ -88,57 +79,24 @@ function App() {
         <Router>
           <div className="App">
             <Routes>
-              {/* Public routes */}
               <Route path="/auth" element={<AuthForm />} />
-              <Route path="/unauthorized" element={<Unauthorized />} />
-
-              {/* Protected routes */}
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/courses"
-                element={
-                  <ProtectedRoute>
-                    <Suspense fallback={suspenseFallback}>
-                      <Courses />
-                    </Suspense>
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/assignments"
-                element={
-                  <ProtectedRoute>
-                    <Suspense fallback={suspenseFallback}>
-                      <Assignments />
-                    </Suspense>
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/instructor"
-                element={
-                  <ProtectedRoute requireRole="instructor">
-                    <Suspense fallback={suspenseFallback}>
-                      <InstructorDashboard />
-                    </Suspense>
-                  </ProtectedRoute>
-                }
-              />
-
-              {/* 404 route */}
+              
+              <Route path="/" element={<ProtectedRoute><AppLayout><Dashboard /></AppLayout></ProtectedRoute>} />
+              
+              {/* Student Routes */}
+              <Route path="/courses" element={<ProtectedRoute><AppLayout><Suspense fallback={suspenseFallback}><CoursesPage /></Suspense></AppLayout></ProtectedRoute>} />
+              <Route path="/exams" element={<ProtectedRoute><AppLayout><Suspense fallback={suspenseFallback}><ExamSection /></Suspense></AppLayout></ProtectedRoute>} />
+              <Route path="/attendance" element={<ProtectedRoute><AppLayout><Suspense fallback={suspenseFallback}><AttendancePage /></Suspense></AppLayout></ProtectedRoute>} />
+              <Route path="/payment" element={<ProtectedRoute><AppLayout><Suspense fallback={suspenseFallback}><PaymentPage /></Suspense></AppLayout></ProtectedRoute>} />
+              <Route path="/rewards" element={<ProtectedRoute><AppLayout><Suspense fallback={suspenseFallback}><RewardsPage /></Suspense></AppLayout></ProtectedRoute>} />
+              
+              {/* Admin Routes */}
+              <Route path="/admin/students" element={<ProtectedRoute requireRole="instructor"><AppLayout><Suspense fallback={suspenseFallback}><StudentDetails /></Suspense></AppLayout></ProtectedRoute>} />
+              <Route path="/admin/attendance" element={<ProtectedRoute requireRole="instructor"><AppLayout><Suspense fallback={suspenseFallback}><AttendanceReport /></Suspense></AppLayout></ProtectedRoute>} />
+              <Route path="/admin/timetable" element={<ProtectedRoute requireRole="instructor"><AppLayout><Suspense fallback={suspenseFallback}><TimetableManager /></Suspense></AppLayout></ProtectedRoute>} />
+              <Route path="/admin/registration" element={<ProtectedRoute requireRole="instructor"><AppLayout><Suspense fallback={suspenseFallback}><CourseRegistration /></Suspense></AppLayout></ProtectedRoute>} />
+              
               <Route path="/404" element={<NotFound />} />
-
-              {/* Fallback route */}
               <Route path="*" element={<Navigate to="/404" replace />} />
             </Routes>
           </div>
