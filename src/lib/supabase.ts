@@ -122,9 +122,11 @@ export const supabase = {
         };
         return chain;
       },
-      insert: (data: any) => ({
-        select: () => ({ single: async () => ({ data, error: null }), then: (r: any) => r({ data, error: null }) })
-      }),
+      insert: (data: any) => {
+        const p = Promise.resolve({ data, error: null }) as any;
+        p.select = () => ({ single: async () => ({ data, error: null }), then: (r: any) => Promise.resolve({ data, error: null }).then(r) });
+        return p;
+      },
       upsert: (data: any) => {
         if (table === 'profiles') {
           currentProfile = { ...currentProfile, ...data } as Profile;

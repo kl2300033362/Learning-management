@@ -634,7 +634,7 @@ export function AuthForm() {
       </div>
 
       {/* Enhanced Custom CSS for realistic page animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes float-page {
           0%, 100% { 
             transform: translateY(0) rotateX(0deg) rotateY(0deg) scale(1); 
