@@ -339,16 +339,16 @@ export function AuthForm() {
               {/* Logo and Brand */}
               <div className="flex items-center justify-center lg:justify-start space-x-4">
                 <div className="relative">
-                  <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 rounded-3xl flex items-center justify-center shadow-2xl shadow-emerald-500/20">
+                  <div className="w-16 h-16 bg-gradient-to-br from-red-600 via-red-500 to-orange-500 rounded-3xl flex items-center justify-center shadow-2xl shadow-red-500/20">
                     <BookOpen className="w-8 h-8 text-white" />
                   </div>
-                  <div className="absolute -inset-2 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-3xl opacity-20 animate-pulse"></div>
+                  <div className="absolute -inset-2 bg-gradient-to-r from-red-400 to-orange-400 rounded-3xl opacity-20 animate-pulse"></div>
                 </div>
                 <div>
-                  <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-300 via-teal-300 to-cyan-300 bg-clip-text text-transparent">
-                    EduPlatform
+                  <h1 className="text-4xl font-bold bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
+                    KL Portal
                   </h1>
-                  <p className="text-sm text-emerald-200/80 font-medium">Interactive Learning Hub</p>
+                  <p className="text-sm text-red-200/80 font-medium">Student & Admin Gateway</p>
                 </div>
               </div>
 
@@ -445,15 +445,17 @@ export function AuthForm() {
               )}
 
               {/* Enhanced Demo Credentials */}
-              <div className="mb-8 p-6 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-400/30 rounded-2xl backdrop-blur-sm">
+              <div className="mb-8 p-6 bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-400/30 rounded-2xl backdrop-blur-sm">
                 <div className="flex items-center space-x-2 mb-4">
-                  <Zap className="w-5 h-5 text-emerald-400" />
-                  <p className="text-emerald-200 font-semibold">Instant Demo Access</p>
+                  <Zap className="w-5 h-5 text-red-400" />
+                  <p className="text-red-200 font-semibold">Any Credentials Work!</p>
                 </div>
                 <div className="space-y-3">
+                  <p className="text-slate-300 text-sm mb-4">Enter any email/password. Use 'admin@kl.edu' to see the admin dashboard, or any other email to see the student dashboard.</p>
                   {demoCredentials.map((cred, index) => (
                     <button
                       key={index}
+                      type="button"
                       onClick={() => setFormData({ ...formData, email: cred.email, password: 'password' })}
                       className="w-full flex items-center space-x-4 p-4 bg-white/10 hover:bg-white/20 rounded-xl transition-all duration-300 text-left group border border-white/10 hover:border-white/20 relative overflow-hidden"
                     >
@@ -463,7 +465,7 @@ export function AuthForm() {
                       <div className="flex-1">
                         <p className="text-white font-medium">{cred.role}</p>
                         <p className="text-slate-300 text-sm">{cred.description}</p>
-                        <p className="text-emerald-400 text-xs font-mono">{cred.email}</p>
+                        <p className="text-red-400 text-xs font-mono">{cred.email}</p>
                       </div>
                       <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
                       

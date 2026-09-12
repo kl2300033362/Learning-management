@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase, supabaseHelpers } from '../lib/supabase';
-import type { User as SupabaseUser } from '@supabase/supabase-js';
-import type { Database, Profile } from '../lib/supabase';
+import { supabase, supabaseHelpers, User as SupabaseUser, Profile } from '../lib/supabase';
+import type { Database } from '../lib/supabase';
 
 // Use the Profile type from supabase.ts for consistency
 type User = Profile;
