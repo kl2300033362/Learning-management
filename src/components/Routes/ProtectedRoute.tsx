@@ -27,7 +27,7 @@ export function ProtectedRoute({ children, requireRole }: ProtectedRouteProps) {
   // Not authenticated - redirect to auth with current location
   if (!user) {
     const redirectPath = location.pathname + location.search;
-    return <Navigate to={`/auth?redirect=${encodeURIComponent(redirectPath)}`} replace />;
+    return <Navigate to={`/?redirect=${encodeURIComponent(redirectPath)}`} replace />;
   }
 
   // Role-based access control with better error page

@@ -250,7 +250,7 @@ export function AuthForm() {
   // Handle redirect after authentication
   useEffect(() => {
     if (!authLoading && user) {
-      const redirectTo = searchParams.get('redirect') || '/';
+      const redirectTo = searchParams.get('redirect') || '/dashboard';
       navigate(redirectTo, { replace: true });
     }
   }, [user, authLoading, navigate, searchParams]);

@@ -79,9 +79,11 @@ function App() {
         <Router>
           <div className="App">
             <Routes>
-              <Route path="/auth" element={<AuthForm />} />
+              {/* If user hits /, send them to Dashboard if logged in, otherwise show AuthForm */}
+              <Route path="/" element={<AuthForm />} />
+              <Route path="/auth" element={<Navigate to="/" replace />} />
               
-              <Route path="/" element={<ProtectedRoute><AppLayout><Dashboard /></AppLayout></ProtectedRoute>} />
+              <Route path="/dashboard" element={<ProtectedRoute><AppLayout><Dashboard /></AppLayout></ProtectedRoute>} />
               
               {/* Student Routes */}
               <Route path="/courses" element={<ProtectedRoute><AppLayout><Suspense fallback={suspenseFallback}><CoursesPage /></Suspense></AppLayout></ProtectedRoute>} />
